@@ -98,7 +98,7 @@ public class Backend {
 
     public String getNotFoundResponse(String key) {
         String outputLine = "HTTP/1.1 200 OK\r\n"
-                + "Content-Type: application/json\r\n"
+                + "Content-Type: application/json; charset=utf-8\r\n"
                 + "\r\n"
                 + "[ \"key\": \"" + key + "\", \"error\": \"key_not_found\"]";
 
@@ -123,7 +123,7 @@ public class Backend {
         }
 
         String outputLine = "HTTP/1.1 200 OK\r\n"
-                + "Content-Type: application/json\r\n"
+                + "Content-Type: application/json; charset=utf-8\r\n"
                 + "\r\n"
                 + "[ \"key\": \"" + key + "\", \"value\": \"" + value + "\"]";
         output.println(outputLine);
@@ -148,7 +148,7 @@ public class Backend {
 
         database.put(key, value);
         String outputLine = "HTTP/1.1 200 OK\r\n"
-                + "Content-Type: application/json\r\n"
+                + "Content-Type: application/json; charset=utf-8\r\n"
                 + "\r\n"
                 + "[ \"key\": \"" + key + "\", \"value\": \"" + value + "\", \"status\": \"created\"]";
         output.println(outputLine);
