@@ -20,3 +20,7 @@ mvn exec:java -D"exec.mainClass"="parcial.AppFacade"
 ## Probar
 
 Para probarlo es suficiente con ir a [http://localhost:8080/](http://localhost:8080/) y utilizar la pagina web
+
+## Video
+
+> Puedes ver el video demostrativo [aquí](res/video.mp4).
