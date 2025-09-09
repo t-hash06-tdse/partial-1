@@ -78,11 +78,38 @@ public class Backend {
         return outputLine;
     }
 
+    private String getBadRequestResponse(String message) {
+        String outputLine = "HTTP/1.1 400 Bad Request\r\n"
+                + "Content-Type: text/html\r\n"
+                + "\r\n"
+                + "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "<meta charset=\"UTF-8\">\n"
+                + "<title>Title of the document</title>\n"
+                + "</head>\n"
+                + "<body>\n"
+                + "<h1>" + message + "</h1>\n"
+                + "</body>\n"
+                + "</html>\n";
+
+        return outputLine;
+    }
+
+    public String getNotFoundResponse(String key) {
+        String outputLine = "HTTP/1.1 200 OK\r\n"
+                + "Content-Type: application/json\r\n"
+                + "\r\n"
+                + "[ \"key\": \"" + key + "\", \"error\": \"key_not_found\"]";
+
+        return outputLine;
+    }
+
     private void handleGetKeyValue(PrintWriter output, Map<String, String> params) {
         String key = params.get("key");
 
         if (key == null) {
-            String outputLine = getBasicResponse("No se proporciono el param \"key\"");
+            String outputLine = getBadRequestResponse("No se proporciono el param \"key\"");
             output.println(outputLine);
             return;
         }
@@ -90,7 +117,7 @@ public class Backend {
         String value = database.get(key);
 
         if (value == null) {
-            String outputLine = getBasicResponse("No existe la llave \"" + key + "\"");
+            String outputLine = getNotFoundResponse(key);
             output.println(outputLine);
             return;
         }
@@ -106,7 +133,7 @@ public class Backend {
         String key = params.get("key");
 
         if (key == null) {
-            String outputLine = getBasicResponse("No se proporciono el param \"key\"");
+            String outputLine = getBadRequestResponse("No se proporciono el param \"key\"");
             output.println(outputLine);
             return;
         }
@@ -114,7 +141,7 @@ public class Backend {
         String value = params.get("value");
 
         if (value == null) {
-            String outputLine = getBasicResponse("No se proporciono el param \"value\"");
+            String outputLine = getBadRequestResponse("No se proporciono el param \"value\"");
             output.println(outputLine);
             return;
         }
