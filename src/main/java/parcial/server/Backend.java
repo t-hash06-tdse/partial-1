@@ -97,10 +97,10 @@ public class Backend {
     }
 
     public String getNotFoundResponse(String key) {
-        String outputLine = "HTTP/1.1 200 OK\r\n"
+        String outputLine = "HTTP/1.1 404 OK\r\n"
                 + "Content-Type: application/json; charset=utf-8\r\n"
                 + "\r\n"
-                + "[ \"key\": \"" + key + "\", \"error\": \"key_not_found\"]";
+                + "{ \"key\": \"" + key + "\", \"error\": \"key_not_found\" }";
 
         return outputLine;
     }
@@ -125,7 +125,7 @@ public class Backend {
         String outputLine = "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: application/json; charset=utf-8\r\n"
                 + "\r\n"
-                + "[ \"key\": \"" + key + "\", \"value\": \"" + value + "\"]";
+                + "{ \"key\": \"" + key + "\", \"value\": \"" + value + "\" }";
         output.println(outputLine);
     }
 
@@ -150,7 +150,7 @@ public class Backend {
         String outputLine = "HTTP/1.1 200 OK\r\n"
                 + "Content-Type: application/json; charset=utf-8\r\n"
                 + "\r\n"
-                + "[ \"key\": \"" + key + "\", \"value\": \"" + value + "\", \"status\": \"created\"]";
+                + "{ \"key\": \"" + key + "\", \"value\": \"" + value + "\", \"status\": \"created\" }";
         output.println(outputLine);
     }
 

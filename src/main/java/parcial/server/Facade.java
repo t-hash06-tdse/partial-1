@@ -8,6 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Facade {
 
@@ -55,6 +58,20 @@ public class Facade {
             String firstLine = request.split("\n")[0];
             String path = firstLine.split(" ")[1];
 
+            if (path.equals("/")) {
+                byte[] content = Files.readAllBytes(FileSystems.getDefault().getPath("src/main/java/res/index.html"));
+                String outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + new String(content);
+                
+                out.println(outputLine);
+                out.close();
+                in.close();
+                clientSocket.close();
+                continue;
+            }
+
             URL obj = new URL("http://localhost:" + BACKEND_PORT + path);
 
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -67,21 +84,19 @@ public class Facade {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     responseCode >= 200 && responseCode < 300
                             ? con.getInputStream()
-                            : con.getErrorStream()
-            ));
+                            : con.getErrorStream()));
             StringBuilder response = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line).append("\n");
             }
-            
-            String outputLine = "HTTP/1.1 " + responseCode + con.getResponseMessage()+ "\r\n"
-            + "Content-Type: " + con.getContentType() + "\r\n"
-            + "\r\n"
-            + response;
-            
+
+            String outputLine = "HTTP/1.1 " + responseCode + con.getResponseMessage() + "\r\n"
+                    + "Content-Type: " + con.getContentType() + "\r\n"
+                    + "\r\n"
+                    + response;
+
             reader.close();
-            System.out.println(outputLine);
 
             out.println(outputLine);
             out.close();

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        pre {
+            display: flex;
+            align-items: center;
+            border: 1px solid green;
+            border-radius: 6px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="get-form" class="section">
+        <h2>
+            Get value
+        </h2>
+        <div class="input-container">
+            <label for="get-key">Key: </label>
+            <input id="get-key" type="text" name="key">
+        </div>
+        <button type="submit">
+            Send
+        </button>
+        <pre id="get-response"></pre>
+    </form>
+
+    <form id="set-form" class="section">
+        <h2>
+            Set value
+        </h2>
+        <div class="input-container">
+            <label for="set-key">Key: </label>
+            <input id="set-key" type="text" name="key">
+        </div>
+        <div class="input-container">
+            <label for="set-value">Value: </label>
+            <input id="set-value" type="text" name="value">
+        </div>
+        <button type="submit">
+            Send
+        </button>
+        <pre id="set-response">
+
+        </pre>
+    </form>
+    <script>
+        const getForm = document.querySelector("#get-form")
+        const setForm = document.querySelector("#set-form")
+        const getResponse = document.querySelector("#get-response")
+        const setResponse = document.querySelector("#set-response")
+        const setKeyInput = document.querySelector("#set-key")
+        const setValueInput = document.querySelector("#set-value")
+        const getKeyInput = document.querySelector("#get-key")
+
+        getForm.addEventListener("submit", async (event) => {
+            event.preventDefault()
+            const key = getKeyInput.value;
+            const response = await fetch(`/getkv?key=${key}`)
+
+            getResponse.innerHTML = await response.text()
+        })
+
+        setForm.addEventListener("submit", async (event) => {
+            event.preventDefault()
+            const key = setKeyInput.value
+            const value = setValueInput.value
+            const response = await fetch(`/setkv?key=${key}&value=${value}`)
+
+            setResponse.innerHTML = await response.text()
+        })
+
+    </script>
+</body>
+
+</html>
